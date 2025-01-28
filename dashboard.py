@@ -5,14 +5,15 @@ import seaborn as sns
 import streamlit as st
 
 try:
-    df_items = pd.read_csv("https://github.com/leviathan712/submission-raasyah/blob/main/order_items_dataset.csv")
-    df_reviews = pd.read_csv("https://github.com/leviathan712/submission-raasyah/blob/main/order_reviews_dataset.csv")
-    df_orders = pd.read_csv("https://github.com/leviathan712/submission-raasyah/blob/main/orders_dataset.csv")
-    df_products = pd.read_csv("https://github.com/leviathan712/submission-raasyah/blob/main/products_dataset.csv")
-    df_sellers = pd.read_csv("https://github.com/leviathan712/submission-raasyah/blob/main/sellers_dataset.csv")
-    df_payments = pd.read_csv("https://github.com/leviathan712/submission-raasyah/blob/main/order_payments_dataset.csv")
-    df_customers = pd.read_csv("https://github.com/leviathan712/submission-raasyah/blob/main/customers_dataset.csv")
-    df_category = pd.read_csv("https://github.com/leviathan712/submission-raasyah/blob/main/product_category_name_translation.csv")
+    df_items = pd.read_csv("order_items_dataset.csv")
+    df_reviews = pd.read_csv("order_reviews_dataset.csv")
+    df_orders = pd.read_csv("orders_dataset.csv")
+    df_products = pd.read_csv("products_dataset.csv")
+    df_geolocation = pd.read_csv("geolocation_dataset.csv")
+    df_sellers = pd.read_csv("sellers_dataset.csv")
+    df_payments = pd.read_csv("order_payments_dataset.csv")
+    df_customers = pd.read_csv("customers_dataset.csv")
+    df_category = pd.read_csv("product_category_name_translation.csv")
     df = df_orders.merge(df_items, on='order_id', how='inner')
     df = df.merge(df_payments, on='order_id', how='inner', validate='m:m')
     df = df.merge(df_reviews, on='order_id', how='inner')
