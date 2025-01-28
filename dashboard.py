@@ -1,3 +1,9 @@
+import numpy as np
+import pandas as pd
+import matplotlib as plt
+import seaborn as sns
+import streamlit as st
+
 # Load your dataset (replace 'all_data.csv' with your actual file path)
 df_items = pd.read_csv("order_items_dataset.csv")
 df_reviews = pd.read_csv("order_reviews_dataset.csv")
