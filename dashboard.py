@@ -30,7 +30,7 @@ st.title("E-commerce Sales Analysis Dashboard")
 # --- Sidebar Menu ---
 page = st.sidebar.selectbox("Pilih Visual Data", [
     "Review Skor Distribusi", 
-    "Trend Penjualanan Bulanan", 
+    "Trend Penjualan Bulanan", 
     "10 Kategori Produk Terbaik",
 ])
 
@@ -43,14 +43,14 @@ if page == "Review Skor Distribusi":
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     st.pyplot(fig)
 
-# --- Trend Penjualanan Bulanan ---
-elif page == "Trend Penjualanan Bulanan":
-    st.subheader("Trend Penjualanan Bulanan")
+# --- Trend Penjualan Bulanan ---
+elif page == "Trend Penjualan Bulanan":
+    st.subheader("Trend Penjualan Bulanan")
     df_data['order_purchase_timestamp'] = pd.to_datetime(df_data['order_purchase_timestamp'])
     monthly_sales = df_data.groupby(df_data['order_purchase_timestamp'].dt.to_period('M'))['price'].sum()
     fig, ax = plt.subplots(figsize=(12, 6))
     ax.plot(monthly_sales.index.astype(str), monthly_sales, marker='o', linestyle='-', color='skyblue', linewidth=2)
-    ax.set(title='Trend Penjualanan Bulanan', xlabel='Bulan', ylabel='Total Penjualan')
+    ax.set(title='Trend Penjualan Bulanan', xlabel='Bulan', ylabel='Total Penjualan')
     plt.xticks(rotation=45)
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     st.pyplot(fig)
