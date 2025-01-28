@@ -20,7 +20,7 @@ try:
     df = df.merge(df_customers, on='customer_id', how='inner')
     df = df.merge(df_sellers, on='seller_id', how='inner')
 except FileNotFoundError:
-    st.error("Error: 'all_data.csv' not found. Please upload the file.")
+    st.error("Error: not found. Please upload the file.")
     st.stop()
 
 # --- Page Title ---
