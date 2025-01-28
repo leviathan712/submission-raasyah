@@ -1,25 +1,29 @@
 import numpy as np
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 
-# Load your dataset (replace 'all_data.csv' with your actual file path)
-df_items = pd.read_csv("order_items_dataset.csv")
-df_reviews = pd.read_csv("order_reviews_dataset.csv")
-df_orders = pd.read_csv("orders_dataset.csv")
-df_products = pd.read_csv("products_dataset.csv")
-df_sellers = pd.read_csv("sellers_dataset.csv")
-df_payments = pd.read_csv("order_payments_dataset.csv")
-df_customers = pd.read_csv("customers_dataset.csv")
-df_category = pd.read_csv("product_category_name_translation.csv")
-df = df_orders.merge(df_items, on='order_id', how='inner')
-df = df.merge(df_payments, on='order_id', how='inner', validate='m:m')
-df = df.merge(df_reviews, on='order_id', how='inner')
-df = df.merge(df_products, on='product_id', how='inner')
-df = df.merge(df_customers, on='customer_id', how='inner')
-df = df.merge(df_sellers, on='seller_id', how='inner')
-df = df
+try:
+    df_items = pd.read_csv("order_items_dataset.csv")
+    df_reviews = pd.read_csv("order_reviews_dataset.csv")
+    df_orders = pd.read_csv("orders_dataset.csv")
+    df_products = pd.read_csv("products_dataset.csv")
+    df_geolocation = pd.read_csv("geolocation_dataset.csv")
+    df_sellers = pd.read_csv("sellers_dataset.csv")
+    df_payments = pd.read_csv("order_payments_dataset.csv")
+    df_customers = pd.read_csv("customers_dataset.csv")
+    df_category = pd.read_csv("product_category_name_translation.csv")
+    df = df_orders.merge(df_items, on='order_id', how='inner')
+    df = df.merge(df_payments, on='order_id', how='inner', validate='m:m')
+    df = df.merge(df_reviews, on='order_id', how='inner')
+    df = df.merge(df_products, on='product_id', how='inner')
+    df = df.merge(df_customers, on='customer_id', how='inner')
+    df = df.merge(df_sellers, on='seller_id', how='inner')
+except FileNotFoundError:
+    st.error("Error: not found. Please upload the file.")
+    st.stop()
+
 # --- Page Title ---
 st.title("E-commerce Sales Analysis Dashboard")
 
