@@ -19,6 +19,7 @@ try:
     df = df.merge(df_products, on='product_id', how='inner')
     df = df.merge(df_customers, on='customer_id', how='inner')
     df = df.merge(df_sellers, on='seller_id', how='inner')
+    df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
     df_data = df
 except FileNotFoundError:
     st.error("Error: not found. Please upload the file.")
