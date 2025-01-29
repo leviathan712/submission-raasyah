@@ -31,14 +31,28 @@ st.title("E-commerce Sales Analysis Dashboard")
 page = st.sidebar.selectbox("Pilih Visual Data", [
     "Review Skor Distribusi", 
     "Trend Penjualan Bulanan", 
-    "10 Kategori Produk Terbaik",
+    "Kategori Produk Terbaik",
 ])
+
+# --- Date Filtering ---
+min_date = df['order_purchase_timestamp'].min()
+max_date = df['order_purchase_timestamp'].max()
+start_date, end_date = st.sidebar.date_input(
+    "Pilih Rentang Tanggal",
+    [min_date, max_date],
+    min_value=min_date,
+    max_value=max_date
+)
+
+# Filter data based on selected date range
+filtered_df = df[(df['order_purchase_timestamp'] >= str(start_date)) & (df['order_purchase_timestamp'] <= str(end_date))]
+
 
 # --- Review Skor Distribusi ---
 if page == "Review Skor Distribusi":
     st.subheader("Review Skor Distribusi")
     fig, ax = plt.subplots(figsize=(10, 6))
-    df_data['review_score'].hist(bins=5, color='skyblue', edgecolor='black', ax=ax)
+    filtered_df['review_score'].hist(bins=5, color='skyblue', edgecolor='black', ax=ax)
     ax.set(title='Review Skor Distribusi', xlabel='Skor Review', ylabel='Frekuensi')
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     st.pyplot(fig)
@@ -46,8 +60,7 @@ if page == "Review Skor Distribusi":
 # --- Trend Penjualan Bulanan ---
 elif page == "Trend Penjualan Bulanan":
     st.subheader("Trend Penjualan Bulanan")
-    df_data['order_purchase_timestamp'] = pd.to_datetime(df_data['order_purchase_timestamp'])
-    monthly_sales = df_data.groupby(df_data['order_purchase_timestamp'].dt.to_period('M'))['price'].sum()
+    monthly_sales = filtered_df.groupby(filtered_df['order_purchase_timestamp'].dt.to_period('M'))['price'].sum()
     fig, ax = plt.subplots(figsize=(12, 6))
     ax.plot(monthly_sales.index.astype(str), monthly_sales, marker='o', linestyle='-', color='skyblue', linewidth=2)
     ax.set(title='Trend Penjualan Bulanan', xlabel='Bulan', ylabel='Total Penjualan')
@@ -55,13 +68,13 @@ elif page == "Trend Penjualan Bulanan":
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     st.pyplot(fig)
 
-# --- 10 Kategori Produk Terbaik ---
-elif page == "10 Kategori Produk Terbaik":
-    st.subheader("10 Kategori Produk Terbaik")
-    top_categories = df_data['product_category_name'].value_counts().head(10)
+# --- Kategori Produk Terbaik ---
+elif page == "Kategori Produk Terbaik":
+    st.subheader("Kategori Produk Terbaik")
+    top_categories = filtered_df['product_category_name'].value_counts().head(10)
     fig, ax = plt.subplots(figsize=(12, 6))
     top_categories.plot(kind='bar', color='skyblue', edgecolor='black', ax=ax)
-    ax.set(title='10 Kategori Produk Terbaik', xlabel='Kategori Produk', ylabel='Jumlah Pemesanan')
+    ax.set(title='Kategori Produk Terbaik', xlabel='Kategori Produk', ylabel='Jumlah Pemesanan')
     plt.xticks(rotation=45)
     ax.grid(axis='y', linestyle='--', alpha=0.7)
     st.pyplot(fig)
